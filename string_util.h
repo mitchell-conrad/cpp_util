@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 
-auto intercalate(std::vector<std::string> in, std::string seperator) {
+namespace util {
 
+auto intercalate(std::vector<std::string> in, std::string seperator) {
     auto it = std::begin(in);
     std::string out = *it;
 
@@ -14,9 +15,7 @@ auto intercalate(std::vector<std::string> in, std::string seperator) {
         out += *it;
         it = std::next(it);
     }
-
     return out;
-
 }
-
+} // namespace util
 #endif // CPP_UTIL_STRING_UTIL_H
