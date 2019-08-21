@@ -1,3 +1,4 @@
+
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${cpp_util_SOURCE_DIR}/include/cpp_util/*.hpp")
 
 # Make an automatic library - will be static or dynamic based on user setting

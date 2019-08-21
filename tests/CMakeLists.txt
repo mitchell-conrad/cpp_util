@@ -17,3 +17,8 @@ add_executable(test_predicate test_predicate.cpp)
 target_compile_features(test_predicate PRIVATE cxx_std_17)
 target_link_libraries(test_predicate PRIVATE cpp_util Catch2::Catch2)
 add_test(NAME test_predicate COMMAND test_predicate)
+
+add_executable(test_validation test_validation.cpp)
+target_compile_features(test_validation PRIVATE cxx_std_17)
+target_link_libraries(test_validation PRIVATE cpp_util Catch2::Catch2)
+add_test(NAME test_validation COMMAND test_validation)

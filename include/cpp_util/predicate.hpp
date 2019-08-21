@@ -21,26 +21,26 @@ constexpr auto true_id() -> unary_predicate<T>
 }
 
 template<class T>
-auto pred_or(unary_predicate<T> a, unary_predicate<T> b) -> unary_predicate<T>
+auto pred_either(unary_predicate<T> a, unary_predicate<T> b) -> unary_predicate<T>
 {
     return [a, b](T in) -> bool { return a(in) || b(in); };
 }
 
 template<class T>
-auto pred_and(unary_predicate<T> a, unary_predicate<T> b) -> unary_predicate<T>
+auto pred_both(unary_predicate<T> a, unary_predicate<T> b) -> unary_predicate<T>
 {
     return [a, b](T in) -> bool { return a(in) && b(in); };
 }
 
 template<class T>
-auto disjunction(std::vector<unary_predicate<T>> predicates) -> unary_predicate<T>
+auto pred_all(std::vector<unary_predicate<T>> predicates) -> unary_predicate<T>
 {
-    return std::accumulate(predicates.begin(), predicates.end(), false_id<T>(), pred_or<T>);
+    return std::accumulate(predicates.begin(), predicates.end(), true_id<T>(), pred_both<T>);
 }
 
 template<class T>
-auto conjunction(std::vector<unary_predicate<T>> predicates) -> unary_predicate<T>
+auto pred_any(std::vector<unary_predicate<T>> predicates) -> unary_predicate<T>
 {
-    return std::accumulate(predicates.begin(), predicates.end(), true_id<T>(), pred_and<T>);
+    return std::accumulate(predicates.begin(), predicates.end(), false_id<T>(), pred_either<T>);
 }
 } // namespace util
