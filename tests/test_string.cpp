@@ -12,3 +12,17 @@ TEST_CASE("Intercalate Check", "[string]")
 
     REQUIRE(output == expected);
 }
+
+TEST_CASE("Flatten Check", "[string]")
+{
+    std::vector<std::string> test_case = {"aaaaaa",
+                                          "bbbbbb",
+                                          "cccccc",
+                                          "dddddd"};
+
+    auto output = util::flatten(test_case);
+
+    auto expected = std::string{"aaaaaabbbbbbccccccdddddd"};
+
+    REQUIRE(output == expected);
+}
