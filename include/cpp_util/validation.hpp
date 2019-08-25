@@ -6,17 +6,17 @@
 
 namespace util {
 
-template<class T>
+template<auto V, class T>
 class validator;
 
 /// valid wrapper with private only constructors
 /// can only be constructed through validator.validate()
 /// \tparam T type of contained data
-template<typename T>
+template<auto V, typename T>
 class valid {
-    template<typename U>
+    template<auto W, typename U>
     class ConstructorKey {
-        friend class validator<U>;
+        friend class validator<W, U>;
 
     private:
         ConstructorKey() = default;
@@ -26,7 +26,7 @@ class valid {
 public:
     /// @private
     /// \param value
-    explicit valid(T value, ConstructorKey<T>) : value_(std::move(value)){};
+    explicit valid(T value, ConstructorKey<V, T>) : value_(std::move(value)){};
 
     /// dereference operator, used to extract value of contained valid T
     /// \return an already validated T
@@ -38,7 +38,7 @@ private:
 
 /// Data validator
 /// \tparam T type of data to be validated
-template<class T>
+template<auto V, class T>
 class validator {
 public:
     /// validator constructor
@@ -49,10 +49,10 @@ public:
     /// validate
     /// \param in value of type T to validate against validator
     /// \return valid wrapped T
-    auto validate(T in) -> valid<T>
+    auto validate(const T& in) -> valid<V, T>
     {
         if(pred_(in)) {
-            return valid<T>(std::move(in), {});
+            return valid<V, T>(std::move(in), {});
         }
         throw std::invalid_argument("Validation predicate failed.");
     };

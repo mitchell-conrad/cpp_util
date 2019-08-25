@@ -4,19 +4,23 @@
 
 namespace util::validation_tests {
 
+enum class int_validators {
+    int_gt1_lt100,
+    int_gt1,
+};
+
 template<class T>
-auto test_func(util::valid<T> in)
+auto test_func(util::valid<int_validators::int_gt1_lt100, T> in)
 {
     return *in;
 }
-} // namespace util::validation_tests
 
 TEST_CASE("Validation Check", "[validation]")
 {
     util::unary_predicate<int> gt_one = [](int a) { return a > 1; };
     util::unary_predicate<int> lt_hundred = [](int a) { return a < 100; };
     auto pred = util::pred_either(gt_one, lt_hundred);
-    util::validator<int> int_validator(pred);
+    util::validator<int_validators::int_gt1_lt100, int> int_validator(pred);
 
     auto valid_int = int_validator.validate(99);
 
@@ -27,7 +31,8 @@ TEST_CASE("Validation Check", "[validation]")
 TEST_CASE("Validation fail case", "[validation]")
 {
     util::unary_predicate<int> pred = [](int a) { return a > 1; };
-    util::validator<int> int_validator(pred);
+    util::validator<int_validators::int_gt1, int> int_validator(pred);
 
     REQUIRE_THROWS_AS(int_validator.validate(0), std::invalid_argument);
 }
+} // namespace util::validation_tests
