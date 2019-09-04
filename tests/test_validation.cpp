@@ -22,7 +22,7 @@ TEST_CASE("Validation Check", "[validation]")
     auto pred = util::pred_either(gt_one, lt_hundred);
     util::validator<int_validators::int_gt1_lt100, int> int_validator(pred);
 
-    auto valid_int = int_validator.validate(99);
+    auto valid_int = int_validator.validate(98);
 
     REQUIRE(*valid_int == 99);
     REQUIRE(util::validation_tests::test_func(valid_int) == 99);

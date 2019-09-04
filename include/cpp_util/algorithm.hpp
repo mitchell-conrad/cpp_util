@@ -6,27 +6,7 @@
 // (Björn Fahller: Modern techniques for keeping your code DRY) [https://youtu.be/tdxQm1DwD_A]
 
 namespace util {
-// TODO: use cpp20 feature flags to enable/disable parameter pack perfect forwarding
 namespace detail {
-    constexpr auto tuple = [](auto... ts) {
-        return [=](const auto& func) noexcept(noexcept(func(ts...))) -> decltype(func(ts...)) {
-            return func(ts...);
-        };
-    };
-
-    constexpr auto or_elements = [](auto&& func) {
-        return [func = std::forward<decltype(func)>(func)](auto... elements) noexcept(
-                   noexcept((func(elements) || ...))) -> decltype((func(elements) || ...)) {
-            return (func(elements) || ...);
-        };
-    };
-
-    constexpr auto and_elements = [](auto&& func) {
-        return [func = std::forward<decltype(func)>(func)](auto... elements) noexcept(
-                   noexcept((func(elements) && ...))) -> decltype((func(elements) && ...)) {
-            return (func(elements) && ...);
-        };
-    };
     constexpr auto bind_rh = [](auto func, auto rh) {
         return [=](auto lh) { return func(lh, rh); };
     };
@@ -38,7 +18,6 @@ constexpr auto equal_to = [](auto rh) { return detail::bind_rh(std::equal_to{}, 
 constexpr auto not_equal_to = [](auto rh) { return detail::bind_rh(std::not_equal_to{}, rh); };
 
 namespace detail {
-
     template<typename Func, typename Tuple>
     class op_t {
         Tuple tup_;
@@ -88,11 +67,52 @@ namespace detail {
         }
     };
 
+    // TODO: use cpp20 feature flags to enable/disable parameter pack perfect forwarding
+    constexpr auto tuple = [](auto... ts) {
+        return [=](const auto& func) noexcept(noexcept(func(ts...))) -> decltype(func(ts...)) {
+            return func(ts...);
+        };
+    };
+
+    constexpr auto or_elements = [](auto&& func) {
+        return [func = std::forward<decltype(func)>(func)](auto... elements) noexcept(
+                   noexcept((func(elements) || ...))) -> decltype((func(elements) || ...)) {
+            return (func(elements) || ...);
+        };
+    };
+
+    constexpr auto and_elements = [](auto&& func) {
+        return [func = std::forward<decltype(func)>(func)](auto... elements) noexcept(
+                   noexcept((func(elements) && ...))) -> decltype((func(elements) && ...)) {
+            return (func(elements) && ...);
+        };
+    };
 } // namespace detail
 
+/**
+ * All of object
+ * \param ts variadic input params of type T
+ * \return function object with comparison operators overloaded
+ * \usage @code
+ * assert(all_of(1, 2, 3) > 4)
+ * assert(all_of(1, 2, 10) >= 10)
+ * @endcode
+ *
+ */
 constexpr auto all_of = [](auto... ts) {
     return detail::op_t(detail::and_elements, detail::tuple(std::forward<decltype(ts)>(ts)...));
 };
+
+/**
+ * Any of object
+ * \param ts variadic input params of type T
+ * \return function object with comparison operators overloaded
+ * \usage @code
+ * assert(any_of(1, 2, 3, 5) > 4)
+ * assert(any_of(1, 2, 10) >= 10)
+ * @endcode
+ *
+ */
 constexpr auto any_of = [](auto... ts) {
     return detail::op_t(detail::or_elements, detail::tuple(std::forward<decltype(ts)>(ts)...));
 };
