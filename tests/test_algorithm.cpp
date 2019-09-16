@@ -11,10 +11,6 @@ TEST_CASE("All Of", "[algorithm]")
 
 TEST_CASE("Any Of", "[algorithm]")
 {
-
-    if(any_of(a,b,c) == 10) {
-
-    }
     using namespace util;
     REQUIRE(any_of(1, 2, 3) == 1);
     REQUIRE(any_of(2, 2, 1) == 1);
