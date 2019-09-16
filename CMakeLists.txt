@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12...3.15)
 
 project(cpp_util
-        VERSION 0.1
+        VERSION 0.2
         DESCRIPTION "A simple cpp utilities library."
         LANGUAGES CXX)
 
