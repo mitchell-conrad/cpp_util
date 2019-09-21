@@ -1,5 +1,4 @@
 #include <cpp_util/string.hpp>
-#include <iostream>
 #include <numeric>
 
 namespace util {
@@ -17,6 +16,7 @@ auto intercalate(const std::vector<std::string>& in, const std::string& separato
     }
     return out;
 }
+
 auto flatten(const std::vector<std::string>& in) -> std::string
 {
     // Calculate pre-reserve size

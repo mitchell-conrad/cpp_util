@@ -22,3 +22,8 @@ add_executable(test_validation test_validation.cpp)
 target_compile_features(test_validation PRIVATE cxx_std_17)
 target_link_libraries(test_validation PRIVATE cpp_util Catch2::Catch2)
 add_test(NAME test_validation COMMAND test_validation)
+
+add_executable(test_algorithm test_algorithm.cpp)
+target_compile_features(test_algorithm PRIVATE cxx_std_17)
+target_link_libraries(test_algorithm PRIVATE cpp_util Catch2::Catch2)
+add_test(NAME test_algorithm COMMAND test_algorithm)

@@ -20,7 +20,6 @@ class valid {
 
     private:
         ConstructorKey() = default;
-        ConstructorKey(const ConstructorKey&) = default;
     };
 
 public:
