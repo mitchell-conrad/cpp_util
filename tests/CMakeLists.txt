@@ -27,3 +27,9 @@ add_executable(test_algorithm test_algorithm.cpp)
 target_compile_features(test_algorithm PRIVATE cxx_std_17)
 target_link_libraries(test_algorithm PRIVATE cpp_util Catch2::Catch2)
 add_test(NAME test_algorithm COMMAND test_algorithm)
+
+add_executable(test_registry test_registry.cpp)
+target_compile_features(test_registry PRIVATE cxx_std_17)
+target_link_libraries(test_registry PRIVATE cpp_util Catch2::Catch2)
+add_test(NAME test_registry COMMAND test_registry)
+
