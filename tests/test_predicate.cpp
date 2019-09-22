@@ -4,24 +4,24 @@
 
 TEST_CASE("Conjunction Check", "[predicate]")
 {
-    auto a = [](int in) { return in < 10; };
-    auto b = [](int in) { return in > 1; };
-    std::vector<util::unary_predicate<int>> vec = {a, b};
-    auto pred = util::pred_all(vec);
+  auto a = [](int in) { return in < 10; };
+  auto b = [](int in) { return in > 1; };
+  std::vector<util::unary_predicate<int>> vec = {a, b};
+  auto pred = util::pred_all(vec);
 
-    REQUIRE(pred(9));
-    REQUIRE(!pred(1));
+  REQUIRE(pred(9));
+  REQUIRE(!pred(1));
 }
 
 TEST_CASE("Disjunction Check", "[predicate]")
 {
-    auto a = [](int in) { return in < 10; };
-    auto b = [](int in) { return in > 1; };
+  auto a = [](int in) { return in < 10; };
+  auto b = [](int in) { return in > 1; };
 
-    std::vector<util::unary_predicate<int>> vec = {a, b};
+  std::vector<util::unary_predicate<int>> vec = {a, b};
 
-    auto pred = util::pred_any(vec);
+  auto pred = util::pred_any(vec);
 
-    REQUIRE(pred(0));
-    REQUIRE(pred(11));
+  REQUIRE(pred(0));
+  REQUIRE(pred(11));
 }

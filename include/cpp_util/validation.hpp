@@ -14,25 +14,25 @@ class validator;
 /// \tparam T type of contained data
 template<auto V, typename T>
 class valid {
-    template<auto W, typename U>
-    class ConstructorKey {
-        friend class validator<W, U>;
+  template<auto W, typename U>
+  class ConstructorKey {
+    friend class validator<W, U>;
 
-    private:
-        ConstructorKey() = default;
-    };
+  private:
+    ConstructorKey() = default;
+  };
 
 public:
-    /// @private
-    /// \param value
-    explicit valid(T value, ConstructorKey<V, T>) : value_(std::move(value)){};
+  /// @private
+  /// \param value
+  explicit valid(T value, ConstructorKey<V, T>) : value_(std::move(value)){};
 
-    /// dereference operator, used to extract value of contained valid T
-    /// \return an already validated T
-    auto operator*() -> T { return value_; };
+  /// dereference operator, used to extract value of contained valid T
+  /// \return an already validated T
+  auto operator*() -> T { return value_; };
 
 private:
-    T value_;
+  T value_;
 };
 
 /// Data validator
@@ -40,24 +40,24 @@ private:
 template<auto V, class T>
 class validator {
 public:
-    /// validator constructor
-    /// \param validation_function unary predicate to validate values against
-    explicit validator(const util::unary_predicate<T>& validation_function) :
-        pred_(validation_function){};
+  /// validator constructor
+  /// \param validation_function unary predicate to validate values against
+  explicit validator(const util::unary_predicate<T>& validation_function) :
+    pred_(validation_function){};
 
-    /// validate
-    /// \param in value of type T to validate against validator
-    /// \return valid wrapped T
-    auto validate(const T& in) -> valid<V, T>
-    {
-        if(pred_(in)) {
-            return valid<V, T>(std::move(in), {});
-        }
-        throw std::invalid_argument("Validation predicate failed.");
-    };
+  /// validate
+  /// \param in value of type T to validate against validator
+  /// \return valid wrapped T
+  auto validate(const T& in) -> valid<V, T>
+  {
+    if(pred_(in)) {
+      return valid<V, T>(std::move(in), {});
+    }
+    throw std::invalid_argument("Validation predicate failed.");
+  };
 
 private:
-    unary_predicate<T> pred_;
+  unary_predicate<T> pred_;
 };
 
 } // namespace util
