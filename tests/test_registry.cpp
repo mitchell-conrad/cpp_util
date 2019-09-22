@@ -8,7 +8,7 @@ TEST_CASE("Interface check", "[registry]")
 {
   util::registry<int> reg;
   auto id = reg.append(1);
-  reg.get(id);
+  auto val = reg.get(id);
   reg.erase(id);
   reg.for_each([](int i) {});
 }

@@ -15,21 +15,21 @@ class validator;
 template<auto V, typename T>
 class valid {
   template<auto W, typename U>
-  class ConstructorKey {
+  class constructor_key {
     friend class validator<W, U>;
 
   private:
-    ConstructorKey() = default;
+    constructor_key() = default;
   };
 
 public:
   /// @private
   /// \param value
-  explicit valid(T value, ConstructorKey<V, T>) : value_(std::move(value)){};
+  explicit valid(T value, constructor_key<V, T>) : value_(std::move(value)){};
 
   /// dereference operator, used to extract value of contained valid T
   /// \return an already validated T
-  auto operator*() -> T { return value_; };
+  [[nodiscard]] auto operator*() -> T& { return value_; };
 
 private:
   T value_;
@@ -48,7 +48,7 @@ public:
   /// validate
   /// \param in value of type T to validate against validator
   /// \return valid wrapped T
-  auto validate(const T& in) -> valid<V, T>
+  [[nodiscard]] auto validate(const T& in) -> valid<V, T>
   {
     if(pred_(in)) {
       return valid<V, T>(std::move(in), {});

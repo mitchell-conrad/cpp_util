@@ -35,4 +35,5 @@ TEST_CASE("Validation fail case", "[validation]")
 
   REQUIRE_THROWS_AS(int_validator.validate(0), std::invalid_argument);
 }
+
 } // namespace util::validation_tests
