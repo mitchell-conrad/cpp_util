@@ -33,3 +33,8 @@ target_compile_features(test_registry PRIVATE cxx_std_17)
 target_link_libraries(test_registry PRIVATE cpp_util Catch2::Catch2)
 add_test(NAME test_registry COMMAND test_registry)
 
+add_executable(test_mutex test_mutex.cpp)
+target_compile_features(test_mutex PRIVATE cxx_std_17)
+target_link_libraries(test_mutex PRIVATE cpp_util Catch2::Catch2)
+add_test(NAME test_mutex COMMAND test_mutex)
+
