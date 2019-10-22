@@ -8,6 +8,8 @@ GIT_TAG        v2.9.1
 FetchContent_MakeAvailable(catch2)
 # Adds Catch2::Catch2
 
+set(CPP_UTIL_INCLUDE_DIR ../include)
+
 add_executable(test_string test_string.cpp)
 target_compile_features(test_string PRIVATE cxx_std_17)
 target_link_libraries(test_string PRIVATE cpp_util Catch2::Catch2)
@@ -38,3 +40,14 @@ target_compile_features(test_mutex PRIVATE cxx_std_17)
 target_link_libraries(test_mutex PRIVATE cpp_util Catch2::Catch2)
 add_test(NAME test_mutex COMMAND test_mutex)
 
+add_executable(test_ipv4 test_ipv4.cpp)
+target_compile_features(test_ipv4 PRIVATE cxx_std_17)
+target_include_directories(test_ipv4 PRIVATE ${CPP_UTIL_INCLUDE_DIR})
+target_link_libraries(test_ipv4 PRIVATE Catch2::Catch2)
+add_test(NAME test_ipv4 COMMAND test_ipv4)
+
+add_executable(test_socket_addr test_socket_addr.cpp)
+target_compile_features(test_socket_addr PRIVATE cxx_std_17)
+target_include_directories(test_socket_addr PRIVATE ${CPP_UTIL_INCLUDE_DIR})
+target_link_libraries(test_socket_addr PRIVATE Catch2::Catch2)
+add_test(NAME test_socket_addr COMMAND test_socket_addr)
