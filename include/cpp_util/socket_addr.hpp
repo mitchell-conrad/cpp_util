@@ -10,7 +10,7 @@ namespace cpp_util {
 class socket_addr {
 public:
   using ip_address_t = std::variant<ipv4>;
-  static auto from_ipv4(ipv4 ip_addr, uint16_t port) -> socket_addr
+  constexpr static auto from_ipv4(ipv4 ip_addr, uint16_t port) -> socket_addr
   {
     return socket_addr(ip_addr, port);
   }
@@ -20,7 +20,7 @@ public:
     ip_addr_ = new_ip;
   }
 
-  auto set_port(uint16_t new_port) -> void
+  constexpr auto set_port(uint16_t new_port) -> void
   {
     port_ = new_port;
   }
@@ -30,7 +30,7 @@ public:
     return ip_addr_;
   }
 
-  [[nodiscard]] auto port() const -> uint16_t
+  [[nodiscard]] constexpr auto port() const -> uint16_t
   {
     return port_;
   }
@@ -42,7 +42,7 @@ public:
   }
 
 private:
-  socket_addr(ipv4 ip_addr, uint16_t port) : ip_addr_(ip_addr), port_(port)
+  constexpr socket_addr(ipv4 ip_addr, uint16_t port) : ip_addr_(ip_addr), port_(port)
   {
   }
   // TODO: Implement ipv6 support

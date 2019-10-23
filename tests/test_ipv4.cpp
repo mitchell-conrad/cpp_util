@@ -4,7 +4,7 @@
 
 TEST_CASE("initialisation test", "[ipv4]")
 {
-  auto test = cpp_util::ipv4::from_ints(0, 0, 0, 0);
+  constexpr auto test = cpp_util::ipv4::from_ints(0, 0, 0, 0);
   CHECK(test == cpp_util::ipv4::unspecified());
 }
 
@@ -25,19 +25,19 @@ TEST_CASE("from_string", "[ipv4]")
 
 TEST_CASE("ip_constants", "[ipv4]")
 {
-  auto localhost = cpp_util::ipv4::localhost();
+  constexpr auto localhost = cpp_util::ipv4::localhost();
   CHECK(localhost == cpp_util::ipv4::from_ints(127, 0, 0, 1));
 
-  auto broadcast = cpp_util::ipv4::broadcast();
+  constexpr auto broadcast = cpp_util::ipv4::broadcast();
   CHECK(broadcast == cpp_util::ipv4::from_ints(255, 255, 255, 255));
 
-  auto unspecified = cpp_util::ipv4::unspecified();
+  constexpr auto unspecified = cpp_util::ipv4::unspecified();
   CHECK(unspecified == cpp_util::ipv4::from_ints(0, 0, 0, 0));
 }
 
 TEST_CASE("ostream operator", "[ipv4]")
 {
-  auto unspecified = cpp_util::ipv4::unspecified();
+  constexpr auto unspecified = cpp_util::ipv4::unspecified();
   std::ostringstream stream;
   stream << unspecified;
   CHECK(stream.str() == "0.0.0.0");
@@ -45,7 +45,7 @@ TEST_CASE("ostream operator", "[ipv4]")
 
 TEST_CASE("to_string", "[ipv4]")
 {
-  auto unspecified = cpp_util::ipv4::unspecified();
+  constexpr auto unspecified = cpp_util::ipv4::unspecified();
   CHECK(unspecified.to_string() == "0.0.0.0");
 
   std::string test_string{"192.168.111.230"};

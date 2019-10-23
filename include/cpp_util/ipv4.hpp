@@ -40,33 +40,34 @@ public:
     return ipv4::from_array(octets);
   }
 
-  [[nodiscard]] static auto from_ints(uint8_t a, uint8_t b, uint8_t c, uint8_t d) -> ipv4
+  [[nodiscard]] constexpr static auto
+  from_ints(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d) -> ipv4
   {
     return ipv4(a, b, c, d);
   };
 
-  [[nodiscard]] static auto from_array(std::array<uint8_t, 4> array) -> ipv4
+  [[nodiscard]] constexpr static auto from_array(const std::array<uint8_t, 4>& array) -> ipv4
   {
     // This constructor enforces its own invariants!
     return ipv4(array[0], array[1], array[2], array[3]);
   }
 
-  [[nodiscard]] static auto unspecified() -> ipv4
+  [[nodiscard]] constexpr static auto unspecified() -> ipv4
   {
     return ipv4(0, 0, 0, 0);
   }
 
-  [[nodiscard]] static auto broadcast() -> ipv4
+  [[nodiscard]] constexpr static auto broadcast() -> ipv4
   {
     return ipv4(255, 255, 255, 255);
   }
 
-  [[nodiscard]] static auto localhost() -> ipv4
+  [[nodiscard]] constexpr static auto localhost() -> ipv4
   {
     return ipv4(127, 0, 0, 1);
   }
 
-  [[nodiscard]] auto octets() const -> std::array<uint8_t, 4>
+  [[nodiscard]] constexpr auto octets() const -> std::array<uint8_t, 4>
   {
     return addr_;
   }
@@ -79,7 +80,8 @@ public:
   }
 
 private:
-  ipv4(uint8_t a, uint8_t b, uint8_t c, uint8_t d) : addr_{a, b, c, d}
+  constexpr ipv4(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d) :
+    addr_{a, b, c, d}
   {
   }
   std::array<uint8_t, 4> addr_;
