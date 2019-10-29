@@ -10,12 +10,23 @@ namespace cpp_util {
 class socket_addr {
 public:
   using ip_address_t = std::variant<ipv4>;
+  [[nodiscard]] static auto from_string(const std::string& addr_string) -> socket_addr
+  {
+    // TODO: Sanitise this correctly.
+    auto itr = addr_string.find_last_of(':');
+    if(itr == std::string::npos) {
+      throw std::invalid_argument("no port number found in given string");
+    }
+    auto&& substring = addr_string.substr(itr + 1);
+    uint16_t port = std::stoi(substring);
+    return socket_addr::from_ipv4(ipv4::from_string(addr_string.substr(0, itr)), port);
+  }
   constexpr static auto from_ipv4(ipv4 ip_addr, uint16_t port) -> socket_addr
   {
     return socket_addr(ip_addr, port);
   }
 
-  auto set_ipv4(ipv4 new_ip) -> void
+  constexpr auto set_ipv4(ipv4 new_ip) -> void
   {
     ip_addr_ = new_ip;
   }
@@ -25,7 +36,7 @@ public:
     port_ = new_port;
   }
 
-  [[nodiscard]] auto ip() const -> ip_address_t
+  [[nodiscard]] constexpr auto ip() const -> ip_address_t
   {
     return ip_addr_;
   }

@@ -1,5 +1,7 @@
 #ifndef CPP_UTIL_IPV4_HPP
 #define CPP_UTIL_IPV4_HPP
+#include <array>
+#include <string>
 
 namespace cpp_util {
 
