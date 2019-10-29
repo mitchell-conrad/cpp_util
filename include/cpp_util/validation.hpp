@@ -1,10 +1,11 @@
-#pragma once
+#ifndef CPP_UTIL_VALIDATION_HPP
+#define CPP_UTIL_VALIDATION_HPP
 
 #include "predicate.hpp"
 #include <functional>
 #include <memory>
 
-namespace util {
+namespace cpp_util {
 
 template<auto V, class T>
 class validator;
@@ -29,7 +30,10 @@ public:
 
   /// dereference operator, used to extract value of contained valid T
   /// \return an already validated T
-  [[nodiscard]] auto operator*() -> T& { return value_; };
+  [[nodiscard]] auto operator*() -> T&
+  {
+    return value_;
+  };
 
 private:
   T value_;
@@ -42,13 +46,14 @@ class validator {
 public:
   /// validator constructor
   /// \param validation_function unary predicate to validate values against
-  explicit validator(const util::unary_predicate<T>& validation_function) :
+  explicit validator(const cpp_util::unary_predicate<T>& validation_function) :
     pred_(validation_function){};
 
   /// validate
   /// \param in value of type T to validate against validator
   /// \return valid wrapped T
-  [[nodiscard]] auto validate(const T& in) -> valid<V, T>
+  [[nodiscard]] auto
+  validate(const T& in) -> valid<V, T>
   {
     if(pred_(in)) {
       return valid<V, T>(std::move(in), {});
@@ -60,4 +65,6 @@ private:
   unary_predicate<T> pred_;
 };
 
-} // namespace util
+} // namespace cpp_util
+
+#endif // CPP_UTIL_VALIDATION_HPP

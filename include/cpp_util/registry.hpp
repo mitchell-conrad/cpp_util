@@ -1,7 +1,10 @@
-#pragma once
-#include "algorithm.hpp"
+#ifndef CPP_UTIL_REGISTRY_HPP
+#define CPP_UTIL_REGISTRY_HPP
 
-namespace util {
+#include <optional>
+#include <vector>
+
+namespace cpp_util {
 
 template<class T>
 class registry {
@@ -10,14 +13,16 @@ class registry {
   size_t id_ = 0;
 
 public:
-  [[nodiscard]] auto append(T element) -> size_t
+  [[nodiscard]] auto
+  append(T element) -> size_t
   {
     map_.emplace_back(id_, std::move(element));
     ++size_;
     return id_++;
   }
 
-  [[nodiscard]] auto get(size_t id) const -> const T&
+  [[nodiscard]] auto
+  get(size_t id) const -> const T&
   {
     using namespace std;
     auto p = lower_bound(begin(map_), end(map_), id,
@@ -28,7 +33,8 @@ public:
     return *(p->second);
   }
 
-  void erase(size_t id)
+  auto
+  erase(size_t id) -> void
   {
     using namespace std;
 
@@ -55,7 +61,8 @@ public:
   }
 
   template<class F>
-  auto for_each(F f) const -> void
+  auto
+  for_each(F f) const -> void
   {
     for(const auto& [id, element] : map_) {
       if(element) {
@@ -64,4 +71,5 @@ public:
     }
   }
 };
-}
+} // namespace cpp_util
+#endif // CPP_UTIL_REGISTRY_HPP

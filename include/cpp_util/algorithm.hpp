@@ -1,11 +1,12 @@
-#pragma once
+#ifndef CPP_UTIL_ALGORITHM_HPP
+#define CPP_UTIL_ALGORITHM_HPP
 #include <functional>
 
 // all_of, any_of utility functions
 // Inspired by:
 // (Björn Fahller: Modern techniques for keeping your code DRY) [https://youtu.be/tdxQm1DwD_A]
 
-namespace util {
+namespace cpp_util {
 namespace detail {
   constexpr auto bind_rh = [](auto func, auto rh) { return [=](auto lh) { return func(lh, rh); }; };
 } // namespace detail
@@ -21,45 +22,54 @@ namespace detail {
     Tuple tup_;
     Func func_;
     template<typename F>
-    constexpr auto apply(F&& f) const noexcept(noexcept(tup_(func_(std::forward<F>(f)))))
+    constexpr auto
+    apply(F&& f) const noexcept(noexcept(tup_(func_(std::forward<F>(f)))))
     {
       return tup_(func_(std::forward<F>(f)));
     }
 
   public:
-    op_t(Func f, Tuple t) : tup_(std::move(t)), func_(std::move(f)) {}
+    op_t(Func f, Tuple t) : tup_(std::move(t)), func_(std::move(f))
+    {
+    }
 
     // TODO: Add other comparison operators
     template<typename T>
-    constexpr auto operator==(const T& t) const
+    constexpr auto
+    operator==(const T& t) const
     {
       return apply(equal_to(t));
     }
 
     template<typename T>
-    friend constexpr auto operator==(const T& lh, const op_t& rh)
+    friend constexpr auto
+    operator==(const T& lh, const op_t& rh)
     {
       return rh == lh;
     }
 
     template<typename T>
-    constexpr auto operator>(const T& t) const
+    constexpr auto
+    operator>(const T& t) const
     {
       return apply(greater_than(t));
     }
     template<typename T>
-    friend constexpr auto operator>(const T& lh, const op_t& rh)
+    friend constexpr auto
+    operator>(const T& lh, const op_t& rh)
     {
       return rh < lh;
     }
 
     template<typename T>
-    constexpr auto operator<(const T& t) const
+    constexpr auto
+    operator<(const T& t) const
     {
       return apply(less_than(t));
     }
     template<typename T>
-    friend constexpr auto operator<(const T& lh, const op_t& rh)
+    friend constexpr auto
+    operator<(const T& lh, const op_t& rh)
     {
       return rh > lh;
     }
@@ -115,4 +125,6 @@ constexpr auto any_of = [](auto... ts) {
   return detail::op_t(detail::or_elements, detail::tuple(std::forward<decltype(ts)>(ts)...));
 };
 
-} // namespace util
+} // namespace cpp_util
+
+#endif // CPP_UTIL_ALGORITHM_HPP
