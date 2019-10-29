@@ -5,10 +5,10 @@
 #include <vector>
 
 namespace cpp_util {
-auto
+[[nodiscard]] auto
 intercalate(const std::vector<std::string>& in, const std::string& separator) -> std::string;
 
-auto
+[[nodiscard]] auto
 flatten(const std::vector<std::string>& in) -> std::string;
 } // namespace cpp_util
 

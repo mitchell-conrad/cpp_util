@@ -6,7 +6,7 @@
 
 TEST_CASE("Interface check")
 {
-  util::registry<int> reg;
+  cpp_util::registry<int> reg;
   auto id = reg.append(1);
   auto val = reg.get(id);
   reg.erase(id);
@@ -15,7 +15,7 @@ TEST_CASE("Interface check")
 
 TEST_CASE("Unique Ptr")
 {
-  util::registry<std::unique_ptr<int>> reg;
+  cpp_util::registry<std::unique_ptr<int>> reg;
 
   auto id = reg.append(std::make_unique<int>(1));
 
@@ -30,7 +30,7 @@ TEST_CASE("Unique Ptr")
 
 TEST_CASE("Add Erase")
 {
-  util::registry<std::string> reg;
+  cpp_util::registry<std::string> reg;
 
   auto erase_id = reg.append("erase string");
   auto id = reg.append("keep string");

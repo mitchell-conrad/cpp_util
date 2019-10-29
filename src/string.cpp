@@ -1,7 +1,7 @@
 #include <cpp_util/string.hpp>
 #include <numeric>
 
-namespace util {
+namespace cpp_util {
 
 auto intercalate(const std::vector<std::string>& in, const std::string& separator) -> std::string
 {

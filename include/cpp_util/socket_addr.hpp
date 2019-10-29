@@ -9,7 +9,6 @@ namespace cpp_util {
 
 class socket_addr {
 public:
-  using ip_address_t = std::variant<ipv4>;
 
   [[nodiscard]] static auto
   from_string(const std::string& addr_string) -> socket_addr
@@ -43,7 +42,7 @@ public:
   }
 
   [[nodiscard]] constexpr auto
-  ip() const -> ip_address_t
+  ip() const -> ipv4
   {
     return ip_addr_;
   }
@@ -57,8 +56,10 @@ public:
   [[nodiscard]] auto
   to_string() const -> std::string
   {
-    auto PrintVisitor = [](const auto& ip) -> std::string { return ip.to_string(); };
+    return ip_addr_.to_string() + ':' + std::to_string(port_);
+    /* auto PrintVisitor = [](const auto& ip) -> std::string { return ip.to_string(); };
     return std::visit(PrintVisitor, ip_addr_) + ':' + std::to_string(port_);
+     */
   }
 
 private:
@@ -67,7 +68,7 @@ private:
   }
 
   // TODO: Implement ipv6 support
-  ip_address_t ip_addr_;
+  ipv4 ip_addr_;
   uint16_t port_;
 };
 

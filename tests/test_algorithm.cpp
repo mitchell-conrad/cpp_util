@@ -4,21 +4,21 @@
 
 TEST_CASE("All Of")
 {
-  using namespace util;
+  using namespace cpp_util;
   REQUIRE(all_of(1, 2, 3) > 0);
   REQUIRE(!(all_of(-1, -2, -3) > 0));
 }
 
 TEST_CASE("Any Of")
 {
-  using namespace util;
+  using namespace cpp_util;
   REQUIRE(any_of(1, 2, 3) == 1);
   REQUIRE(any_of(2, 2, 1) == 1);
 }
 
 TEST_CASE("Compound")
 {
-  using namespace util;
+  using namespace cpp_util;
   REQUIRE(less_than(any_of(1, 2))(2) == false);
 
   std::vector<int> s{10, 12, 3, 11};

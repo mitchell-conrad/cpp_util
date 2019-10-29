@@ -4,7 +4,7 @@
 
 TEST_CASE("interface check")
 {
-  util::mutex<int> test_m(10);
+  cpp_util::mutex<int> test_m(10);
 
   test_m.apply([](auto& a) { a += 10; });
   REQUIRE(test_m.get() == 20);
