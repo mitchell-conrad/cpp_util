@@ -1,8 +1,8 @@
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 #include <cpp_util/mutex.hpp>
 
-TEST_CASE("interface check", "[mutex]")
+TEST_CASE("interface check")
 {
   util::mutex<int> test_m(10);
 

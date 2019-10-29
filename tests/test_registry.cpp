@@ -1,10 +1,10 @@
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 #include <cpp_util/registry.hpp>
 #include <iostream>
 #include <memory>
 
-TEST_CASE("Interface check", "[registry]")
+TEST_CASE("Interface check")
 {
   util::registry<int> reg;
   auto id = reg.append(1);
@@ -13,7 +13,7 @@ TEST_CASE("Interface check", "[registry]")
   reg.for_each([](int i) {});
 }
 
-TEST_CASE("Unique Ptr", "[registry]")
+TEST_CASE("Unique Ptr")
 {
   util::registry<std::unique_ptr<int>> reg;
 
@@ -28,7 +28,7 @@ TEST_CASE("Unique Ptr", "[registry]")
   REQUIRE_THROWS_AS(reg.get(id), std::out_of_range);
 }
 
-TEST_CASE("Add Erase", "[registry]")
+TEST_CASE("Add Erase")
 {
   util::registry<std::string> reg;
 

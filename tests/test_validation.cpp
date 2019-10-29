@@ -1,5 +1,5 @@
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 #include <cpp_util/validation.hpp>
 
 namespace util::validation_tests {
@@ -15,7 +15,7 @@ auto test_func(util::valid<int_validators::int_gt1_lt100, T> in)
   return *in;
 }
 
-TEST_CASE("Validation Check", "[validation]")
+TEST_CASE("Validation Check")
 {
   util::unary_predicate<int> gt_one = [](int a) { return a > 1; };
   util::unary_predicate<int> lt_hundred = [](int a) { return a < 100; };
@@ -28,7 +28,7 @@ TEST_CASE("Validation Check", "[validation]")
   REQUIRE(util::validation_tests::test_func(valid_int) == 99);
 }
 
-TEST_CASE("Validation fail case", "[validation]")
+TEST_CASE("Validation fail case")
 {
   util::unary_predicate<int> pred = [](int a) { return a > 1; };
   util::validator<int_validators::int_gt1, int> int_validator(pred);

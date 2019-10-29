@@ -1,8 +1,8 @@
-#define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 #include <cpp_util/string.hpp>
 
-TEST_CASE("Intercalate Check", "[string]")
+TEST_CASE("Intercalate Check")
 {
   std::vector<std::string> test_case = {"a", "a", "a"};
   auto separator = std::string{", "};
@@ -13,7 +13,7 @@ TEST_CASE("Intercalate Check", "[string]")
   REQUIRE(output == expected);
 }
 
-TEST_CASE("Flatten Check", "[string]")
+TEST_CASE("Flatten Check")
 {
   std::vector<std::string> test_case = {"aaaaaa", "bbbbbb", "cccccc", "dddddd"};
 
