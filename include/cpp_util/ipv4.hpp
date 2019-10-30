@@ -10,6 +10,9 @@ public:
   [[nodiscard]] static auto
   from_string(const std::string& addr_string) -> ipv4
   {
+    // TODO: This should take a std::string_view instead of std::string
+    //  Will require reworking alg as std::stoi doesn't accept a std::string_view
+
     if(addr_string.length() > 15) {
       throw std::invalid_argument("ip address string given is longer than 15 chars");
     }

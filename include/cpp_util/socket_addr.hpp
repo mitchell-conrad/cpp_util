@@ -9,10 +9,12 @@ namespace cpp_util {
 
 class socket_addr {
 public:
-
   [[nodiscard]] static auto
   from_string(const std::string& addr_string) -> socket_addr
   {
+    // TODO: This should take a std::string_view instead of std::string
+    //  Will require reworking alg as std::stoi doesn't accept a std::string_view
+
     // TODO: Sanitise this correctly.
     auto itr = addr_string.find_last_of(':');
     if(itr == std::string::npos) {
