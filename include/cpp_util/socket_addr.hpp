@@ -3,6 +3,7 @@
 
 #include "ipv4.hpp"
 #include <cstdint>
+#include <limits>
 #include <variant>
 
 namespace cpp_util {
@@ -10,18 +11,22 @@ namespace cpp_util {
 class socket_addr {
 public:
   [[nodiscard]] static auto
-  from_string(const std::string& addr_string) -> socket_addr
+  from_string(const std::string_view addr_string) -> socket_addr
   {
-    // TODO: This should take a std::string_view instead of std::string
-    //  Will require reworking alg as std::stoi doesn't accept a std::string_view
-
     // TODO: Sanitise this correctly.
     auto itr = addr_string.find_last_of(':');
     if(itr == std::string::npos) {
       throw std::invalid_argument("no port number found in given string");
     }
-    auto&& substring = addr_string.substr(itr + 1);
-    uint16_t port = std::stoi(substring);
+    auto substring = addr_string.substr(itr + 1);
+    char* end_ptr;
+    long port = std::strtol(substring.data(), &end_ptr, 10);
+    if(end_ptr != addr_string.end()) {
+      throw std::invalid_argument("port given could not be parsed");
+    }
+    if(port > 65535 || port < 1) {
+      throw std::invalid_argument("port given is out of range");
+    }
     return socket_addr::from_ipv4(ipv4::from_string(addr_string.substr(0, itr)), port);
   }
 

@@ -21,6 +21,12 @@ TEST_CASE("from_string")
   CHECK_THROWS_AS(cpp_util::ipv4::from_string("300.168.111.230"), std::invalid_argument);
   CHECK_THROWS_AS(cpp_util::ipv4::from_string("200.168.111"), std::invalid_argument);
   CHECK_THROWS_AS(cpp_util::ipv4::from_string("192.168.111.2a1"), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string("   192.16.11.2"), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string("192..168.1"), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string("...."), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string(".168.111.230"), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string("aaa.aaa.aaa.aaa"), std::invalid_argument);
+  CHECK_THROWS_AS(cpp_util::ipv4::from_string("1 2.168.1 1.230"), std::invalid_argument);
 }
 
 TEST_CASE("ip_constants")

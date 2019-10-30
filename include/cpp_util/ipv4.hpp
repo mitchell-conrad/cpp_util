@@ -1,6 +1,7 @@
 #ifndef CPP_UTIL_IPV4_HPP
 #define CPP_UTIL_IPV4_HPP
 #include <array>
+#include <regex>
 #include <string>
 
 namespace cpp_util {
@@ -8,39 +9,33 @@ namespace cpp_util {
 class ipv4 {
 public:
   [[nodiscard]] static auto
-  from_string(const std::string& addr_string) -> ipv4
+  from_string(const std::string_view addr_string) -> ipv4
   {
-    // TODO: This should take a std::string_view instead of std::string
-    //  Will require reworking alg as std::stoi doesn't accept a std::string_view
-
-    if(addr_string.length() > 15) {
-      throw std::invalid_argument("ip address string given is longer than 15 chars");
+    // Validate ipv4 address format
+    // Regex matches nnn.nnn.nnn.nnn, where n is a numeral and the number of numerals per octet is
+    //  1-3
+    const std::regex addr_check{R"--(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b)--"};
+    if(!std::regex_match(addr_string.begin(), addr_string.end(), addr_check)) {
+      throw std::invalid_argument("invalid ip addr string");
     }
     std::array<uint8_t, 4> octets{};
 
-    size_t idx{};
+    // Get ourselves a mutable copy of our string view
+    auto current_substr = addr_string;
     for(int i = 0; i < 4; ++i) {
-      size_t processed{};
-      auto parsed = std::stoi(addr_string.substr(idx), &processed, 10);
+      char* current_ptr;
+      auto parsed = std::strtol(current_substr.data(), &current_ptr, 10);
+
+      // Check that parsed long exists inside valid uint8_t range
       if(parsed > 255 || parsed < 0) {
         throw std::invalid_argument("ip address string has octet out of range 0 <= x <= 255");
       }
-
-      // Skip however many chars we've successfully stoi'd
-      idx += processed;
-
-      // If we're expecting another '.', check that we get one
-      if(i != 3 && (idx >= addr_string.length() || addr_string.at(idx) != '.')) {
-        throw std::invalid_argument("ip address string given is invalid");
-      }
-
-      // If we're processing our last octet, check that we've processed the entire octet
-      if(i == 3 && idx != addr_string.length()) {
-        throw std::invalid_argument("ip address string given is invalid");
-      }
-      // Skip '.'
-      idx++;
       octets[i] = parsed;
+
+      // Cut parsed chars off front of str
+      current_substr.remove_prefix(std::distance(current_substr.data(), (const char*)current_ptr));
+      // Cut '.' off front of str
+      current_substr.remove_prefix(1);
     }
 
     return ipv4::from_array(octets);
