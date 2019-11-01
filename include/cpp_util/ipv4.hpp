@@ -22,7 +22,7 @@ public:
 
     // Get ourselves a mutable copy of our string view
     auto current_substr = addr_string;
-    for(int i = 0; i < 4; ++i) {
+    for(auto& octet : octets) {
       char* current_ptr;
       auto parsed = std::strtol(current_substr.data(), &current_ptr, 10);
 
@@ -30,7 +30,7 @@ public:
       if(parsed > 255 || parsed < 0) {
         throw std::invalid_argument("ip address string has octet out of range 0 <= x <= 255");
       }
-      octets[i] = parsed;
+      octet = parsed;
 
       // Cut parsed chars off front of str
       current_substr.remove_prefix(std::distance(current_substr.data(), (const char*)current_ptr));

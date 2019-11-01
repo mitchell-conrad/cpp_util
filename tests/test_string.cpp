@@ -23,3 +23,13 @@ TEST_CASE("Flatten Check")
 
   REQUIRE(output == expected);
 }
+
+TEST_CASE("to_lower check")
+{
+  REQUIRE(cpp_util::to_lower("AaAAaaa123Asdf") == "aaaaaaa123asdf");
+}
+
+TEST_CASE("to_upper check")
+{
+  REQUIRE(cpp_util::to_upper("asdfAAaAFD") == "ASDFAAAAFD");
+}

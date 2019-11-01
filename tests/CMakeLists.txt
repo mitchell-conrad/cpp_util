@@ -19,7 +19,6 @@ add_compile_options(-Wno-unused-result)
 
 add_executable(test_string test_string.cpp)
 target_compile_features(test_string PRIVATE cxx_std_17)
-target_link_libraries(test_string PRIVATE cpp_util)
 add_test(NAME test_string COMMAND test_string)
 
 add_executable(test_predicate test_predicate.cpp)
