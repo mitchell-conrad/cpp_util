@@ -79,13 +79,13 @@ private:
   uint16_t port_;
 };
 
-auto
+inline auto
 operator<<(std::ostream& out, const socket_addr& addr) -> std::ostream&
 {
   return out << addr.to_string();
 }
 
-auto
+inline auto
 operator==(const socket_addr& a, const socket_addr& b)
 {
   return (a.port() == b.port()) && (a.ip() == b.ip());

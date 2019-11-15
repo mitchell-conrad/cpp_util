@@ -95,12 +95,12 @@ private:
   std::array<uint8_t, 4> addr_;
 };
 
-auto
+inline auto
 operator<<(std::ostream& out, const ipv4& addr) -> std::ostream&
 {
   return out << addr.to_string();
 }
-auto
+inline auto
 operator==(const ipv4& a, const ipv4& b)
 {
   return a.octets() == b.octets();
