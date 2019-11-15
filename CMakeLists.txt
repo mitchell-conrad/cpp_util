@@ -45,8 +45,8 @@ if (${CMAKE_VERSION} VERSION_LESS 3.14)
     include(cmake/add_FetchContent_MakeAvailable.cmake)
 endif ()
 
-# The compiled library code is here
-add_subdirectory(src)
+add_library(cpp_util INTERFACE)
+target_include_directories(cpp_util INTERFACE include/)
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
