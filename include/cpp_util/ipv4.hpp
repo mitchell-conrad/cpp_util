@@ -86,6 +86,13 @@ public:
                        + std::to_string(addr_[2]) + '.' + std::to_string(addr_[3])};
   }
 
+  /// Copy constructor
+  constexpr ipv4(const ipv4&) = default;
+
+  /// Copy assignment operator
+  [[nodiscard]] constexpr auto
+  operator=(const ipv4&) -> ipv4& = default;
+
 private:
   constexpr ipv4(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d) :
     addr_{a, b, c, d}

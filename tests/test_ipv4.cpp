@@ -57,3 +57,13 @@ TEST_CASE("to_string")
   std::string test_string{"192.168.111.230"};
   CHECK(cpp_util::ipv4::from_string(test_string).to_string() == test_string);
 }
+
+TEST_CASE("copy constructor and operator")
+{
+  auto unspecified = cpp_util::ipv4::unspecified();
+  auto copy_assign = unspecified;
+  CHECK(unspecified == copy_assign);
+
+  auto copy_construct{unspecified};
+  CHECK(unspecified == copy_construct);
+}
