@@ -35,15 +35,16 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     else ()
         message(STATUS "Doxygen not found, not building docs")
     endif ()
+    # FetchContent added in CMake 3.11, downloads during the configure step
+    include(FetchContent)
+    # FetchContent_MakeAvailable was not added until CMake 3.14
+    if (${CMAKE_VERSION} VERSION_LESS 3.14)
+        include(cmake/add_FetchContent_MakeAvailable.cmake)
+    endif ()
+
 endif ()
 
 
-# FetchContent added in CMake 3.11, downloads during the configure step
-include(FetchContent)
-# FetchContent_MakeAvailable was not added until CMake 3.14
-if (${CMAKE_VERSION} VERSION_LESS 3.14)
-    include(cmake/add_FetchContent_MakeAvailable.cmake)
-endif ()
 
 add_library(cpp_util INTERFACE)
 target_include_directories(cpp_util INTERFACE include/)
